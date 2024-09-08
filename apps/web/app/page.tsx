@@ -104,33 +104,6 @@ export default function Component() {
               {selectedIssue && <span>{selectedIssue}</span>}
             </CardDescription>
           </CardHeader>
-          {/* <CardContent className="flex flex-col gap-4 h-full overflow-auto"> */}
-          {/* <MessageComponent
-            avatarSrc="/placeholder-user.jpg"
-            avatarFallback="AI"
-            name="AI Assistant"
-            message="I'm here to help with your issue. How can I assist you today?"
-          />
-          <MessageComponent
-            avatarSrc="/placeholder-user.jpg"
-            avatarFallback="User"
-            name="You"
-            message="I'm having trouble with the latest feature release. Can you help me troubleshoot?"
-          />
-          <MessageComponent
-            avatarSrc="/placeholder-user.jpg"
-            avatarFallback="AI"
-            name="AI Assistant"
-            message="Sure, let's take a look. Can you provide more details about the issue you're experiencing?"
-          />
-        </CardContent>
-        <div className="sticky bottom-0 w-full bg-background px-4 py-2">
-          <Input
-            type="text"
-            placeholder="Type your message..."
-            className="w-full"
-          />
-        </div> */}
           <FancyTextArea />
         </Card>
       </div>

@@ -31,8 +31,9 @@ const exampleMessages = [
     message: `How frequently is this happening`,
   },
   {
-    heading: "Where in the stack are the biggest issues",
-    message: `Where in the stack are the biggest issues`,
+    heading: "Suggest solutions",
+    subheading: "For top 3 issues, propose fixes",
+    message: "For the top 3 most reported issues, can you suggest potential solutions or workarounds?",
   },
 ];
 
@@ -54,7 +55,7 @@ export default function FancyTextArea() {
   });
 
   return (
-    <div className="stretch mx-auto flex w-full flex-col items-center py-24">
+    <div className="stretch mx-auto flex w-full flex-col items-center py-24 text-custom-light-green">
       <div className="w-full px-4 lg:w-[60ch]">
         {messages.map((m, i) => (
           <div key={m.id}>
@@ -119,7 +120,7 @@ export default function FancyTextArea() {
               <div className="absolute right-0 top-[13px] sm:right-4">
                 <Tooltip>
                   <TooltipTrigger asChild>
-                    <Button type="submit" size="icon">
+                    <Button type="submit" size="icon" className="bg-custom-light-green text-primary-foreground hover:bg-custom-mid-green/90">
                       <CornerDownLeft />
                       <span className="sr-only">Send message</span>
                     </Button>

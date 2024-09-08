@@ -18,6 +18,7 @@ module.exports = {
   		},
   		colors: {
 				'custom-green': '#00de82',
+				'custom-mid-green': '#66eaae',
 				'custom-light-green': '#ceffe3',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
