@@ -14,6 +14,7 @@ const CsvRowSchema = z
   .object({
     cluster: z.string(),
     cluster_label: z.string(),
+    comments: z.string().optional(),
     subcluster: z.string(),
     subcluster_label: z.string(),
     subsubcluster: z.string(),

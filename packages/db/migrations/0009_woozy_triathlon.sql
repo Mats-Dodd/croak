@@ -1,0 +1,1 @@
+ALTER TABLE github_issue_source ADD `comment_count` integer;

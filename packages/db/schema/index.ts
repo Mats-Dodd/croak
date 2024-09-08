@@ -47,6 +47,7 @@ export const github_issue_source = sqliteTable("github_issue_source", {
   issue_id: integer("issue_id").primaryKey({ autoIncrement: false }),
   title: text("title").notNull(),
   body: text("body").notNull(),
+  comments: integer("comment_count"),
   created_at: integer("created_at").notNull().$defaultFn(getCurrentTimeMs),
 });
 
