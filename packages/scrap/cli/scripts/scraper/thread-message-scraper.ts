@@ -56,6 +56,7 @@ export async function threadMessageScraper() {
       spinner.succeed(`Messages fetched successfully for channel ${channelId}`);
 
       // Save messages to the database
+      if (data.messages.length > 0) {
       await db.insert(discordMessage).values(
         data.messages.map(msg => ({
           id: msg.id,
@@ -64,7 +65,8 @@ export async function threadMessageScraper() {
           author_id: msg.author.id,
           message_sent_at: new Date(msg.timestamp).getTime(),
         }))
-      ).onConflictDoNothing();
+        ).onConflictDoNothing();
+      }
 
       return {
         count: data.messages.length,
@@ -112,12 +114,17 @@ export async function threadMessageScraper() {
         .limit(1);
 
       if (incompleteChannels.length === 0) {
-        console.log("All channels have been processed.");
-        break;
+        console.log("No more incomplete channels. Waiting 5 seconds before trying again...");
+        await new Promise(resolve => setTimeout(resolve, 5000));
+        continue;
       }
 
       const channelId = incompleteChannels[0].id;
+      try{
       await processChannel(channelId);
+      } catch (error) {
+        console.error(`Error processing channel ${channelId}:`, error);
+      }
     }
   } catch (error) {
     console.error("Error processing channels:", error);
