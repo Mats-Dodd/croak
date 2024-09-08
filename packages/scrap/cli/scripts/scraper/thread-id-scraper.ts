@@ -83,6 +83,7 @@ export async function threadIdScraper() {
       const threads = data.threads.map((thread) => ({
         id: thread.id,
         name: thread.name || null,
+        parent_channel_id: channelId,
       }));
 
       // Save thread IDs and names to the database
