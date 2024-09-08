@@ -12,38 +12,70 @@ import { useState } from "react";
 import FancyTextArea from "./fancyTextArea";
 import Header from "./header";
 import IssuesComponent from "./issues";
+import { problem_space_cluster } from "@repo/db/schema";
 
 export type SubtaskMap = {
   [key: string]: SubtaskMap;
 };
 
-export default function ActualPage() {
+type ProblemSpaceCluster = typeof problem_space_cluster.$inferSelect;
+
+export default function ActualPage({
+  problem_space_clusters,
+}: {
+  problem_space_clusters: ProblemSpaceCluster[];
+}) {
   const [selectedIssue, setSelectedIssue] = useState<string | null>(null);
 
-  const issues: Record<string, SubtaskMap> = {
-    "Main Issues": {
-      "Subtask 1": {
-        "Subtask 1.1": {
-          "Subtask 1.1.1": {},
-          "Subtask 1.1.2": {},
-        },
-        "Subtask 1.2": {},
-      },
-      "Subtask 2": {},
-      "Subtask 3": {
-        "Subtask 3.1": {},
-      },
-    },
-    "Main Issues 2": {
-      "Subtask 1": {
-        "Subtask 1.1": {
-          "Subtask 1.1.1": {},
-          "Subtask 1.1.2": {},
-        },
-        "Subtask 1.2": {},
-      },
-    },
+  const buildIssueTree = (
+    clusters: ProblemSpaceCluster[]
+  ): Record<string, SubtaskMap> => {
+    const issueTree: Record<string, SubtaskMap> = {};
+    const clusterMap: Record<number, ProblemSpaceCluster> = {};
+
+    // First, create a map of all clusters
+    clusters.forEach((cluster) => {
+      clusterMap[cluster.id] = cluster;
+    });
+
+    // Then, build the tree structure
+    clusters.forEach((cluster) => {
+      if (cluster.parent_problem_space_cluster_id === null) {
+        // This is a root-level cluster
+        issueTree[cluster.cluster_label] = {};
+      } else {
+        // This is a child cluster
+        let currentLevel = issueTree;
+        let parent = clusterMap[cluster.parent_problem_space_cluster_id];
+        const path = [];
+
+        // Traverse up the tree to find the correct place for this cluster
+        while (parent) {
+          path.unshift(parent.cluster_label);
+          parent =
+            parent.parent_problem_space_cluster_id !== null
+              ? (clusterMap[parent.parent_problem_space_cluster_id] ??
+                undefined)
+              : undefined;
+        }
+
+        // Create the path in the tree
+        path.forEach((label) => {
+          if (!currentLevel[label]) {
+            currentLevel[label] = {};
+          }
+          currentLevel = currentLevel[label];
+        });
+
+        // Add the current cluster to its parent
+        currentLevel[cluster.cluster_label] = {};
+      }
+    });
+
+    return issueTree;
   };
+
+  const issues = buildIssueTree(problem_space_clusters);
 
   return (
     <>
@@ -100,9 +132,6 @@ export default function ActualPage() {
                 Chat with issue{selectedIssue && <span>: {selectedIssue}</span>}
               </span>
             </CardTitle>
-            {/* <CardDescription>
-              {selectedIssue && <span>{selectedIssue}</span>}
-            </CardDescription> */}
           </CardHeader>
           <FancyTextArea />
         </Card>
