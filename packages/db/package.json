@@ -1,0 +1,30 @@
+{
+  "name": "@repo/db",
+  "version": "0.1.0",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "license": "MIT",
+  "scripts": {
+    "clean": "rm -rf .turbo node_modules",
+    "with-env": "dotenv -e ../../.env --",
+    "generate": "drizzle-kit generate:sqlite",
+    "migrate": "bun run ./migrate.ts"
+  },
+  "dependencies": {
+    "@libsql/client": "0.6.0",
+    "@paralleldrive/cuid2": "^2.2.2",
+    "bun": "^1.1.27",
+    "drizzle-orm": "^0.30.10",
+    "drizzle-zod": "^0.5.1",
+    "env": "^0.0.2",
+    "ora": "^5.4.1",
+    "sqlite-vss": "^0.1.2",
+    "znv": "^0.4.0",
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "drizzle-kit": "^0.20.14",
+    "typescript": "^5.3.3"
+  }
+}

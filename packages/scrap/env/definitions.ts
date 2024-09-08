@@ -21,7 +21,22 @@ export const envObjects = [
     env_name: "DISCORD_TOKEN",
     schema: z.string(),
     instructions:
-      "Grab a token from the Authorization header from a discord API call",
+      "Grab a token from the Authorization header from a discord API call in a browser dev tools.",
+  }),
+  createEnvKey({
+    env_name: "DISCORD_THREAD_CHANNEL_ID",
+    schema: z.string(),
+    instructions: "The ID of the channel to scrape the treads from.",
+  }),
+  createEnvKey({
+    env_name: "TURSO_DB_URL",
+    schema: z.string(),
+    instructions: "The URL of the database to connect to.",
+  }),
+  createEnvKey({
+    env_name: "TURSO_DB_TOKEN",
+    schema: z.string(),
+    instructions: "The auth token of the database to connect to.",
   }),
 ] as const;
 

@@ -1,4 +1,5 @@
-import { threadScraper } from "./scripts/scraper/thread-scraper";
+import { threadIdScraper } from "./scripts/scraper/thread-id-scraper";
+import { threadMessageScraper } from "./scripts/scraper/thread-message-scraper";
 
 export type Selection = {
   name: string;
@@ -11,9 +12,14 @@ export type Selection = {
 
 export const scripts: Selection[] = [
   {
-    name: "Scraper",
-    description: "Scraper",
-    onSelect: threadScraper,
+    name: "Thread Id Scraper",
+    description: "Scraper for thread ids",
+    onSelect: threadIdScraper,
+  },
+  {
+    name: "Thread Message Scraper",
+    description: "Scraper for thread messages",
+    onSelect: threadMessageScraper,
   },
 ] as const;
 
