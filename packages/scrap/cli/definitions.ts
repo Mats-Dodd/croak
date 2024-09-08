@@ -1,0 +1,22 @@
+import { threadScraper } from "./scripts/scraper/thread-scraper";
+
+export type Selection = {
+  name: string;
+  description: string;
+  onSelect: (() => Promise<void>) | Selection[];
+};
+
+// Add custom actions here. Read the README for more information.
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export const scripts: Selection[] = [
+  {
+    name: "Scraper",
+    description: "Scraper",
+    onSelect: threadScraper,
+  },
+] as const;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+export default scripts;
