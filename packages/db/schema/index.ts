@@ -53,7 +53,7 @@ export const github_issue = sqliteTable("github_issue", {
 
 export const problem_space = sqliteTable("problem_space", {
   id: integer("id").primaryKey(),
-  parent_problem_id: integer("parent_problem_id"),
+  parent_problem_space_id: integer("parent_problem_space_id"),
   created_at: integer("created_at").notNull().$defaultFn(getCurrentTimeMs),
 });
 

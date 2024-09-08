@@ -43,6 +43,13 @@
       "when": 1725824911312,
       "tag": "0005_burly_chamber",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1725825739584,
+      "tag": "0006_flippant_christian_walker",
+      "breakpoints": true
     }
   ]
 }
