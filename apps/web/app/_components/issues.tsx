@@ -34,9 +34,9 @@ const SubIssueComponent = ({
         className="flex items-center justify-between w-full text-custom-light-green"
         onClick={() => setSelectedIssue(title)} // Set the issue title on click
       >
-        <span className="flex items-center">
+        <span className="flex">
           <Bug size={10} className="text-custom-light-green mr-2" />
-          <span>{title}</span>
+          <span className="text-start">{title}</span>
           <span className="text-custom-light-green ml-2">
             {
               problem_counts.find(
@@ -98,19 +98,6 @@ export default function IssuesComponent({
           <span className="flex items-center">
             <Bug size={15} className="text-custom-green mr-2" />
             <span>{issueTitle}</span>
-            <span className="text-custom-light-green ml-2">
-              {
-                problem_counts.find(
-                  (count) =>
-                    count.cluster_id ===
-                    problem_space_clusters.find(
-                      (cluster) => cluster.cluster_label === issueTitle
-                    )?.id
-                )?.count
-              }
-              {" - "}
-              problems
-            </span>
           </span>
           <ChevronDownIcon className="h-4 w-4 text-custom-light-green" />
         </CollapsibleTrigger>
