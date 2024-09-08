@@ -1,99 +1,123 @@
-import Image from "next/image";
-import { Button } from "@repo/ui/button";
-import styles from "./page.module.css";
+"use client"; // client for now, ill do server magic later
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardContent,
+  CardDescription,
+} from "@/components/ui/card";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Input } from "@/components/ui/input";
+import IssuesComponent from "./_components/issues";
+import { useState } from "react";
+import MessageComponent from "./_components/message";
+import { Github } from "lucide-react";
 
-export default function Home() {
+export default function Component() {
+  const [selectedIssue, setSelectedIssue] = useState<string | null>(null);
+
+  const subIssues = {
+    "Subtask 1": {
+      "Subtask 1.1": {
+        "Subtask 1.1.1": {},
+        "Subtask 1.1.2": {},
+      },
+      "Subtask 1.2": {},
+    },
+    "Subtask 2": {},
+    "Subtask 3": {
+      "Subtask 3.1": {},
+    },
+  };
+
+  const subissues2 = {
+    "Subtask 1": {
+      "Subtask 1.1": {
+        "Subtask 1.1.1": {},
+        "Subtask 1.1.2": {},
+      },
+      "Subtask 1.2": {},
+    },
+  };
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>app/page.tsx</code>
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 h-screen p-4">
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle>Issues</CardTitle>
+            <div className="flex items-center gap-2">
+              <ToggleGroup type="single" defaultValue="Discord">
+                <ToggleGroupItem value="Discord" aria-label="Toggle bold">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    className="h-5 w-5"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.018Z"
+                    />
+                  </svg>
+                </ToggleGroupItem>
+                <ToggleGroupItem value="Github" aria-label="Toggle italic">
+                  <Github className="h-5 w-5" />
+                </ToggleGroupItem>
+              </ToggleGroup>
+            </div>
+          </div>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <IssuesComponent
+            issueTitle="Main Issue"
+            subIssues={subIssues}
+            setSelectedIssue={setSelectedIssue}
+          />
+          <IssuesComponent
+            issueTitle="Main Issue 2"
+            subIssues={subissues2}
+            setSelectedIssue={setSelectedIssue}
+          />
+        </CardContent>
+      </Card>
+      <Card className="h-full flex flex-col">
+        <CardHeader>
+          <CardTitle>Chat with issue</CardTitle>
+          <CardDescription>
+            {selectedIssue && <span>{selectedIssue}</span>}
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="flex flex-col gap-4 h-full overflow-auto">
+          <MessageComponent
+            avatarSrc="/placeholder-user.jpg"
+            avatarFallback="AI"
+            name="AI Assistant"
+            message="I'm here to help with your issue. How can I assist you today?"
+          />
+          <MessageComponent
+            avatarSrc="/placeholder-user.jpg"
+            avatarFallback="User"
+            name="You"
+            message="I'm having trouble with the latest feature release. Can you help me troubleshoot?"
+          />
+          <MessageComponent
+            avatarSrc="/placeholder-user.jpg"
+            avatarFallback="AI"
+            name="AI Assistant"
+            message="Sure, let's take a look. Can you provide more details about the issue you're experiencing?"
+          />
+        </CardContent>
+        <div className="sticky bottom-0 w-full bg-background px-4 py-2">
+          <Input
+            type="text"
+            placeholder="Type your message..."
+            className="w-full"
+          />
         </div>
-        <Button appName="web" className={styles.secondary}>
-          Open alert
-        </Button>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file-text.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </Card>
     </div>
   );
 }
