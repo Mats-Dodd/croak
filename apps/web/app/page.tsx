@@ -51,7 +51,7 @@ export default function Component() {
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2 text-custom-light-green">
-              <Bug className="h-5 w-5 text-custom-light-green" />
+              <Bug className="h-5 w-5 text-custom-green" />
               <span>The Croaks</span>
             </CardTitle>
             <div className="flex items-center gap-2">

@@ -23,7 +23,10 @@ const SubIssueComponent = ({
         className="flex items-center justify-between w-full text-custom-light-green"
         onClick={() => setSelectedIssue(title)} // Set the issue title on click
       >
-        <span>🪣 {title}</span>
+          <span className="flex items-center">
+            <Bug size={10} className="text-custom-light-green mr-2" />
+            <span>{title}</span>
+          </span>
         {hasSubIssues ? <ChevronDownIcon className="h-4 w-4 text-custom-light-green" /> : null}
       </CollapsibleTrigger>
       {hasSubIssues && (
@@ -59,7 +62,10 @@ export default function IssuesComponent({
           className="flex items-center justify-between font-semibold w-full text-custom-light-green"
           onClick={() => setSelectedIssue(issueTitle)} // Set the main issue title
         >
-          <span><Bug size={15} className="text-custom-green" /> {issueTitle}</span>
+          <span className="flex items-center">
+            <Bug size={15} className="text-custom-green mr-2" />
+            <span>{issueTitle}</span>
+          </span>
           <ChevronDownIcon className="h-4 w-4 text-custom-light-green" />
         </CollapsibleTrigger>
         <CollapsibleContent className="ml-4 space-y-2">
