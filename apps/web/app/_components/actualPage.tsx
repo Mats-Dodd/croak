@@ -80,7 +80,7 @@ export default function ActualPage({
   return (
     <>
       <Header />
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 h-screen p-4 text-custom-light-green">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 h-screen max-h-screen p-4 text-custom-light-green">
         <Card>
           <CardHeader>
             <div className="flex items-center justify-between">
@@ -133,7 +133,7 @@ export default function ActualPage({
               </span>
             </CardTitle>
           </CardHeader>
-          <FancyTextArea />
+          <FancyTextArea issue={selectedIssue} />
         </Card>
       </div>
     </>
