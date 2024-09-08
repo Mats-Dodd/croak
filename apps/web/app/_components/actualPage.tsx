@@ -19,11 +19,17 @@ export type SubtaskMap = {
 };
 
 type ProblemSpaceCluster = typeof problem_space_cluster.$inferSelect;
+type ProblemCount = {
+  cluster_id: number; // Changed from string to number
+  count: number;
+};
 
 export default function ActualPage({
   problem_space_clusters,
+  problem_counts,
 }: {
   problem_space_clusters: ProblemSpaceCluster[];
+  problem_counts: ProblemCount[];
 }) {
   const [selectedIssue, setSelectedIssue] = useState<string | null>(null);
 
@@ -120,6 +126,8 @@ export default function ActualPage({
                 issueTitle={issueTitle}
                 subIssues={subIssues}
                 setSelectedIssue={setSelectedIssue}
+                problem_space_clusters={problem_space_clusters}
+                problem_counts={problem_counts}
               />
             ))}
           </CardContent>
