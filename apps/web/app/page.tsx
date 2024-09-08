@@ -12,6 +12,7 @@ import IssuesComponent from "./_components/issues";
 import { useState } from "react";
 import MessageComponent from "./_components/message";
 import { Github, BotMessageSquare, Bug } from "lucide-react";
+import Header from "./_components/header";
 
 export type SubtaskMap = {
   [key: string]: SubtaskMap;
@@ -46,8 +47,10 @@ export default function Component() {
   };
 
   return (
-    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 h-screen p-4 text-custom-light-green">
-      <Card>
+    <>
+      <Header />
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 h-screen p-4 text-custom-light-green">
+        <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
             <CardTitle className="flex items-center gap-2 text-custom-light-green">
@@ -129,5 +132,6 @@ export default function Component() {
         </div>
       </Card>
     </div>
+    </>
   );
 }
