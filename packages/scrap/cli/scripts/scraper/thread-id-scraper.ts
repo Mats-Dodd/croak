@@ -1,20 +1,31 @@
 import { env } from "@/env";
+import { createDbClient } from "@repo/db";
 import ora from "ora";
+import { schema } from "@repo/db";
+import { discordChannel } from "@repo/db/schema";
+import { z } from "zod";
 
-export async function threadScraper() {
+const ThreadResponseSchema = z.object({
+  threads: z.array(z.object({
+    id: z.string(),
+  })),
+  has_more: z.boolean(),
+});
+
+export async function threadIdScraper() {
   const token = env.DISCORD_TOKEN;
-  const channelId = "1089389297548931182"; // You might want to make this configurable
-
-  async function fetchThreads(
+  const channelId = env.DISCORD_THREAD_CHANNEL_ID;
+  const db = createDbClient(env.TURSO_DB_URL, env.TURSO_DB_TOKEN);
+  
+  async function fetchAndSaveThreads(
     offset: number = 0
-  ): Promise<{ threadIds: string[]; hasMore: boolean }> {
+  ): Promise<{ count: number; hasMore: boolean }> {
     const url = new URL(
       `https://discord.com/api/v9/channels/${channelId}/threads/search`
     );
     url.searchParams.append("archived", "true");
     url.searchParams.append("sort_by", "last_message_time");
     url.searchParams.append("sort_order", "desc");
-    url.searchParams.append("limit", "25");
     url.searchParams.append("tag_setting", "match_some");
     url.searchParams.append("offset", offset.toString());
 
@@ -52,7 +63,7 @@ export async function threadScraper() {
         spinner.text = `Rate limited. Waiting for ${retryAfter} seconds...`;
         await new Promise((resolve) => setTimeout(resolve, retryAfter * 1000));
         spinner.stop();
-        return fetchThreads(offset);
+        return fetchAndSaveThreads(offset);
       }
 
       if (!response.ok) {
@@ -61,25 +72,19 @@ export async function threadScraper() {
         );
       }
 
-      const data = await response.json();
+      const rawData = await response.json();
+      const data = ThreadResponseSchema.parse(rawData);
       spinner.succeed("Threads fetched successfully");
 
-      const threadIds = data.threads.map((thread: any) => thread.id);
-      const channelIds = data.threads.map((thread: any) => thread.channel_id);
-      const firstMessages = data.first_messages;
+      const threadIds = data.threads.map((thread) => thread.id);
 
-      const matchingFirstMessages = firstMessages.filter((message: any) =>
-        threadIds.includes(message.channel_id)
-      );
-
-      console.log("Channel ID:", channelIds[0]); // Assuming all threads are from the same channel
-      console.log(
-        "Number of matching first messages:",
-        matchingFirstMessages.length
-      );
+      // Save thread IDs to the database
+      await db.insert(discordChannel).values(
+        threadIds.map(id => ({ id }))
+      ).onConflictDoNothing();
 
       return {
-        threadIds: threadIds,
+        count: threadIds.length,
         hasMore: data.has_more,
       };
     } catch (error) {
@@ -90,24 +95,23 @@ export async function threadScraper() {
   }
 
   try {
-    let allThreadIds: string[] = [];
+    let totalThreads = 0;
     let offset = 0;
     let hasMore = true;
 
     while (hasMore) {
-      const { threadIds, hasMore: moreThreads } = await fetchThreads(offset);
-      allThreadIds = allThreadIds.concat(threadIds);
-      offset += threadIds.length;
+      const { count, hasMore: moreThreads } = await fetchAndSaveThreads(offset);
+      totalThreads += count;
+      offset += count;
       hasMore = moreThreads;
       console.log(
-        `Fetched ${threadIds.length} thread IDs. Total: ${allThreadIds.length}`
+        `Fetched and saved ${count} thread IDs. Total: ${totalThreads}`
       );
     }
 
-    console.log("Total thread IDs fetched:", allThreadIds.length);
-    return allThreadIds;
+    console.log("Total thread IDs fetched and saved:", totalThreads);
   } catch (error) {
-    console.error("Error fetching thread IDs:", error);
+    console.error("Error fetching and saving thread IDs:", error);
     throw error;
   }
 }

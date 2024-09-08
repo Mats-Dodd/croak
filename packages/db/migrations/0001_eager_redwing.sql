@@ -1,0 +1,1 @@
+ALTER TABLE discord_message ADD `message_sent_at` integer NOT NULL;
