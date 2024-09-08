@@ -11,12 +11,13 @@ export async function downloadCsv() {
   const spinner = ora("Fetching data...").start();
   const batchSize = 1000;
   let offset = 0;
-  let allData: { problem: string }[] = [];
+  let allData: { channel_id: string; problem: string }[] = [];
 
   try {
     while (true) {
       const result = await db.run(sql`
         SELECT 
+          dc.id AS channel_id,
           dc.name || ': ' || dm.content AS problem
         FROM 
           discord_channel dc
@@ -45,6 +46,7 @@ export async function downloadCsv() {
       if (result.rows.length === 0) break;
 
       const mappedRows = result.rows.map((row) => ({
+        channel_id: row.channel_id as string,
         problem: row.problem as string,
       }));
       allData = allData.concat(mappedRows);
@@ -58,7 +60,7 @@ export async function downloadCsv() {
 
     const csvContent = unparse(allData, {
       header: true,
-      columns: ["problem"],
+      columns: ["channel_id", "problem"],
     });
 
     const outputDir = path.join(process.cwd(), "output");
