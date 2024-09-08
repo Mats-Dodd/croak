@@ -1,3 +1,4 @@
+import { downloadCsv } from "./scripts/scraper/download-csv";
 import { threadIdScraper } from "./scripts/scraper/thread-id-scraper";
 import { threadMessageScraper } from "./scripts/scraper/thread-message-scraper";
 
@@ -20,6 +21,11 @@ export const scripts: Selection[] = [
     name: "Thread Message Scraper",
     description: "Scraper for thread messages",
     onSelect: threadMessageScraper,
+  },
+  {
+    name: "Download CSV",
+    description: "Download CSV",
+    onSelect: downloadCsv,
   },
 ] as const;
 
