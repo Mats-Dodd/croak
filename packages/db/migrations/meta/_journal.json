@@ -15,6 +15,20 @@
       "when": 1725787818355,
       "tag": "0001_eager_redwing",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1725823059340,
+      "tag": "0002_open_firelord",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1725823141795,
+      "tag": "0003_left_bloodscream",
+      "breakpoints": true
     }
   ]
 }
