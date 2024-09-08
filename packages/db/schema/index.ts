@@ -14,6 +14,7 @@ export const discordChannel = sqliteTable(
     thread_data_complete: integer("thread_data_complete", { mode: "boolean" })
       .notNull()
       .$defaultFn(() => false),
+
     created_at: integer("created_at").notNull().$defaultFn(getCurrentTimeMs),
   },
   (t) => ({
@@ -59,6 +60,38 @@ export const problem_discord_channel = sqliteTable("problem_discord_channel", {
 export const problem_github_issue = sqliteTable("problem_github_issue", {
   id: integer("id").primaryKey(),
   github_issue_id: text("github_issue_id").notNull(),
+  created_at: integer("created_at").notNull().$defaultFn(getCurrentTimeMs),
+});
+
+export const discord_issue = sqliteTable("discord_issue", {
+  id: integer("id").primaryKey(),
+  discord_channel_id: text("discord_channel_id").notNull(),
+  created_at: integer("created_at").notNull().$defaultFn(getCurrentTimeMs),
+});
+
+export const github_issue = sqliteTable("github_issue", {
+  id: integer("id").primaryKey(),
+  issue_id: integer("issue_id").notNull(),
+  title: text("title").notNull(),
+  body: text("body").notNull(),
+  created_at: integer("created_at").notNull().$defaultFn(getCurrentTimeMs),
+});
+
+export const discord_metadata = sqliteTable("discord_metadata", {
+  id: integer("id").primaryKey(),
+  discord_channel_id: text("discord_channel_id").notNull(),
+  process_text: text("process_text").notNull(),
+  cluster: integer("cluster").notNull(),
+  cluster_label: text("cluster_label").notNull(),
+  created_at: integer("created_at").notNull().$defaultFn(getCurrentTimeMs),
+});
+
+export const github_metadata = sqliteTable("github_metadata", {
+  id: integer("id").primaryKey(),
+  github_issue_id: integer("github_issue_id").notNull(),
+  process_text: text("process_text").notNull(),
+  cluster: integer("cluster").notNull(),
+  cluster_label: text("cluster_label").notNull(),
   created_at: integer("created_at").notNull().$defaultFn(getCurrentTimeMs),
 });
 
