@@ -23,7 +23,7 @@ export default function CenteredLogo() {
 
       {/* GitHub link on the right */}
       <a
-        href="https://github.com"
+        href="https://github.com/Mats-Dodd/croak"
         className="text-white hover:text-gray-400"
         target="_blank"
         rel="noopener noreferrer"
