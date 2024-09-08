@@ -43,32 +43,6 @@ export const discordMessage = sqliteTable(
   })
 );
 
-export const problem = sqliteTable("problem", {
-  id: integer("id").primaryKey(),
-  problem_title: text("problem_title").notNull(),
-  problem_description: text("problem_description").notNull(),
-  parent_problem_id: integer("parent_problem_id"),
-  created_at: integer("created_at").notNull().$defaultFn(getCurrentTimeMs),
-});
-
-export const problem_discord_channel = sqliteTable("problem_discord_channel", {
-  id: integer("id").primaryKey(),
-  discord_channel_id: text("discord_channel_id").notNull(),
-  created_at: integer("created_at").notNull().$defaultFn(getCurrentTimeMs),
-});
-
-export const problem_github_issue = sqliteTable("problem_github_issue", {
-  id: integer("id").primaryKey(),
-  github_issue_id: text("github_issue_id").notNull(),
-  created_at: integer("created_at").notNull().$defaultFn(getCurrentTimeMs),
-});
-
-export const discord_issue = sqliteTable("discord_issue", {
-  id: integer("id").primaryKey(),
-  discord_channel_id: text("discord_channel_id").notNull(),
-  created_at: integer("created_at").notNull().$defaultFn(getCurrentTimeMs),
-});
-
 export const github_issue = sqliteTable("github_issue", {
   id: integer("id").primaryKey(),
   issue_id: integer("issue_id").notNull(),
@@ -77,21 +51,26 @@ export const github_issue = sqliteTable("github_issue", {
   created_at: integer("created_at").notNull().$defaultFn(getCurrentTimeMs),
 });
 
-export const discord_metadata = sqliteTable("discord_metadata", {
+export const problem_space = sqliteTable("problem_space", {
   id: integer("id").primaryKey(),
-  discord_channel_id: text("discord_channel_id").notNull(),
-  process_text: text("process_text").notNull(),
+  parent_problem_id: integer("parent_problem_id"),
+  created_at: integer("created_at").notNull().$defaultFn(getCurrentTimeMs),
+});
+
+export const problem_space_cluster = sqliteTable("problem_space_cluster", {
+  id: integer("id").primaryKey(),
+  problem_space_id: integer("problem_space_id").notNull(),
   cluster: integer("cluster").notNull(),
   cluster_label: text("cluster_label").notNull(),
   created_at: integer("created_at").notNull().$defaultFn(getCurrentTimeMs),
 });
 
-export const github_metadata = sqliteTable("github_metadata", {
+export const problem = sqliteTable("problem", {
   id: integer("id").primaryKey(),
-  github_issue_id: integer("github_issue_id").notNull(),
+  problem_space_cluster_id: integer("problem_space_cluster_id").notNull(),
+  source_type: text("source_type", { enum: ["discord", "github"] }).notNull(),
+  source_id: integer("source_id").notNull(),
   process_text: text("process_text").notNull(),
-  cluster: integer("cluster").notNull(),
-  cluster_label: text("cluster_label").notNull(),
   created_at: integer("created_at").notNull().$defaultFn(getCurrentTimeMs),
 });
 

@@ -36,6 +36,13 @@
       "when": 1725823553465,
       "tag": "0004_large_radioactive_man",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1725824911312,
+      "tag": "0005_burly_chamber",
+      "breakpoints": true
     }
   ]
 }
