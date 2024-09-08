@@ -124,7 +124,9 @@ export async function threadMessageScraper() {
       await processChannel(channelId);
       } catch (error) {
         console.error(`Error processing channel ${channelId}:`, error);
+        await new Promise(resolve => setTimeout(resolve, 5000));
       }
+      await new Promise(resolve => setTimeout(resolve, 1000));
     }
   } catch (error) {
     console.error("Error processing channels:", error);

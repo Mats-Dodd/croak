@@ -4,11 +4,15 @@ import ora from "ora";
 import { schema } from "@repo/db";
 import { discordChannel } from "@repo/db/schema";
 import { z } from "zod";
+import { sql } from "drizzle-orm";
 
 const ThreadResponseSchema = z.object({
-  threads: z.array(z.object({
-    id: z.string(),
-  })),
+  threads: z.array(
+    z.object({
+      id: z.string(),
+      name: z.string().optional(),
+    })
+  ),
   has_more: z.boolean(),
 });
 
@@ -16,7 +20,7 @@ export async function threadIdScraper() {
   const token = env.DISCORD_TOKEN;
   const channelId = env.DISCORD_THREAD_CHANNEL_ID;
   const db = createDbClient(env.TURSO_DB_URL, env.TURSO_DB_TOKEN);
-  
+
   async function fetchAndSaveThreads(
     offset: number = 0
   ): Promise<{ count: number; hasMore: boolean }> {
@@ -76,15 +80,22 @@ export async function threadIdScraper() {
       const data = ThreadResponseSchema.parse(rawData);
       spinner.succeed("Threads fetched successfully");
 
-      const threadIds = data.threads.map((thread) => thread.id);
+      const threads = data.threads.map((thread) => ({
+        id: thread.id,
+        name: thread.name || null,
+      }));
 
-      // Save thread IDs to the database
-      await db.insert(discordChannel).values(
-        threadIds.map(id => ({ id }))
-      ).onConflictDoNothing();
+      // Save thread IDs and names to the database
+      await db
+        .insert(discordChannel)
+        .values(threads)
+        .onConflictDoUpdate({
+          target: discordChannel.id,
+          set: { name: sql`excluded.name` },
+        });
 
       return {
-        count: threadIds.length,
+        count: threads.length,
         hasMore: data.has_more,
       };
     } catch (error) {
@@ -105,13 +116,13 @@ export async function threadIdScraper() {
       offset += count;
       hasMore = moreThreads;
       console.log(
-        `Fetched and saved ${count} thread IDs. Total: ${totalThreads}`
+        `Fetched and saved ${count} thread IDs and names. Total: ${totalThreads}`
       );
     }
 
-    console.log("Total thread IDs fetched and saved:", totalThreads);
+    console.log("Total thread IDs and names fetched and saved:", totalThreads);
   } catch (error) {
-    console.error("Error fetching and saving thread IDs:", error);
+    console.error("Error fetching and saving thread IDs and names:", error);
     throw error;
   }
 }
