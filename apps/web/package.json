@@ -10,13 +10,17 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.1.5",
+    "@ai-sdk/openai": "^0.0.58",
     "@radix-ui/react-avatar": "^1.1.0",
     "@radix-ui/react-collapsible": "^1.1.0",
     "@radix-ui/react-dropdown-menu": "^2.1.1",
+    "@radix-ui/react-separator": "^1.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-toggle": "^1.1.0",
     "@radix-ui/react-toggle-group": "^1.1.0",
+    "@radix-ui/react-tooltip": "^1.1.2",
     "@repo/ui": "workspace:*",
+    "ai": "^3.3.28",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.439.0",
@@ -24,8 +28,10 @@
     "next-themes": "^0.3.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
+    "react-textarea-autosize": "^8.5.3",
     "tailwind-merge": "^2.5.2",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
