@@ -13,6 +13,7 @@ import FancyTextArea from "./fancyTextArea";
 import Header from "./header";
 import IssuesComponent from "./issues";
 import { problem_space_cluster } from "@repo/db/schema";
+import PlotGraph from "./PlotGraph";
 
 export type SubtaskMap = {
   [key: string]: SubtaskMap;
@@ -131,6 +132,7 @@ export default function ActualPage({
               />
             ))}
           </CardContent>
+          <PlotGraph />
         </Card>
         <Card className="h-full flex flex-col">
           <CardHeader>
