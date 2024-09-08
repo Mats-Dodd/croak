@@ -13,32 +13,38 @@ import { useState } from "react";
 import MessageComponent from "./_components/message";
 import { Github } from "lucide-react";
 
+export type SubtaskMap = {
+  [key: string]: SubtaskMap;
+};
+
 export default function Component() {
   const [selectedIssue, setSelectedIssue] = useState<string | null>(null);
 
-  const subIssues = {
-    "Subtask 1": {
-      "Subtask 1.1": {
-        "Subtask 1.1.1": {},
-        "Subtask 1.1.2": {},
+  const issues: Record<string, SubtaskMap> = {
+    "Main Issues": {
+      "Subtask 1": {
+        "Subtask 1.1": {
+          "Subtask 1.1.1": {},
+          "Subtask 1.1.2": {},
+        },
+        "Subtask 1.2": {},
       },
-      "Subtask 1.2": {},
+      "Subtask 2": {},
+      "Subtask 3": {
+        "Subtask 3.1": {},
+      },
     },
-    "Subtask 2": {},
-    "Subtask 3": {
-      "Subtask 3.1": {},
-    },
+    "Main Issues 2": {
+      "Subtask 1": {
+        "Subtask 1.1": {
+          "Subtask 1.1.1": {},
+          "Subtask 1.1.2": {},
+        },
+        "Subtask 1.2": {},
+      },
+    }
   };
 
-  const subissues2 = {
-    "Subtask 1": {
-      "Subtask 1.1": {
-        "Subtask 1.1.1": {},
-        "Subtask 1.1.2": {},
-      },
-      "Subtask 1.2": {},
-    },
-  };
   return (
     <div className="grid grid-cols-1 gap-4 md:grid-cols-2 h-screen p-4">
       <Card>
@@ -71,16 +77,14 @@ export default function Component() {
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
-          <IssuesComponent
-            issueTitle="Main Issue"
-            subIssues={subIssues}
-            setSelectedIssue={setSelectedIssue}
-          />
-          <IssuesComponent
-            issueTitle="Main Issue 2"
-            subIssues={subissues2}
-            setSelectedIssue={setSelectedIssue}
-          />
+          { Object.entries(issues).map(([issueTitle, subIssues]) => (
+            <IssuesComponent
+              key={issueTitle}
+              issueTitle={issueTitle}
+              subIssues={subIssues}
+              setSelectedIssue={setSelectedIssue}
+            />
+          ))}
         </CardContent>
       </Card>
       <Card className="h-full flex flex-col">
