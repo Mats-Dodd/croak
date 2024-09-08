@@ -1,4 +1,5 @@
 import { downloadCsv } from "./scripts/scraper/download-csv";
+import { generateFakeData } from "./scripts/scraper/generate-fake-folders";
 import { threadIdScraper } from "./scripts/scraper/thread-id-scraper";
 import { threadMessageScraper } from "./scripts/scraper/thread-message-scraper";
 
@@ -26,6 +27,11 @@ export const scripts: Selection[] = [
     name: "Download CSV",
     description: "Download CSV",
     onSelect: downloadCsv,
+  },
+  {
+    name: "Generate Fake Data",
+    description: "Generate Fake Data",
+    onSelect: generateFakeData,
   },
 ] as const;
 

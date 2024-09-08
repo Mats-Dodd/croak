@@ -1,0 +1,1 @@
+ALTER TABLE `problem_space` RENAME COLUMN `parent_problem_id` TO `parent_problem_space_id`;
