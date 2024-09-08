@@ -1,33 +1,22 @@
 import env from "@/env";
 import { createDbClient } from "@repo/db";
-import { problem, problem_space, problem_space_cluster } from "@repo/db/schema";
+import { problem, problem_space_cluster } from "@repo/db/schema";
 
 export async function generateFakeData() {
   const db = createDbClient(env.TURSO_DB_URL, env.TURSO_DB_TOKEN);
-  // Generate problem spaces
-  const problemSpaceIds: number[] = [];
-  const totalProblemSpaces = 300;
 
-  for (let i = 0; i < totalProblemSpaces; i++) {
-    const result = await db
-      .insert(problem_space)
-      .values({
-        parent_problem_space_id:
-          i === 0 ? null : problemSpaceIds[Math.floor(Math.random() * i)],
-      })
-      .returning({ insertedId: problem_space.id });
+  // Generate problem space clusters (folders)
+  const problemSpaceClusterIds: number[] = [];
+  const totalFolders = 300;
 
-    problemSpaceIds.push(result[0].insertedId);
-  }
-
-  // Generate problem space clusters
-  const problemSpaceClusterIds = [];
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < totalFolders; i++) {
     const result = await db
       .insert(problem_space_cluster)
       .values({
-        problem_space_id:
-          problemSpaceIds[Math.floor(Math.random() * problemSpaceIds.length)],
+        parent_problem_space_cluster_id:
+          i === 0
+            ? null
+            : problemSpaceClusterIds[Math.floor(Math.random() * i)],
         cluster: Math.floor(Math.random() * 5),
         cluster_label: `Cluster ${Math.floor(Math.random() * 5)}`,
       })

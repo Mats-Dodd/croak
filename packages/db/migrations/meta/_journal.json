@@ -50,6 +50,13 @@
       "when": 1725825739584,
       "tag": "0006_flippant_christian_walker",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1725827223249,
+      "tag": "0007_clear_magma",
+      "breakpoints": true
     }
   ]
 }

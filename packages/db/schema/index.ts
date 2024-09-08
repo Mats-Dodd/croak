@@ -51,15 +51,9 @@ export const github_issue = sqliteTable("github_issue", {
   created_at: integer("created_at").notNull().$defaultFn(getCurrentTimeMs),
 });
 
-export const problem_space = sqliteTable("problem_space", {
-  id: integer("id").primaryKey(),
-  parent_problem_space_id: integer("parent_problem_space_id"),
-  created_at: integer("created_at").notNull().$defaultFn(getCurrentTimeMs),
-});
-
 export const problem_space_cluster = sqliteTable("problem_space_cluster", {
   id: integer("id").primaryKey(),
-  problem_space_id: integer("problem_space_id").notNull(),
+  parent_problem_space_cluster_id: integer("parent_problem_space_cluster_id"),
   cluster: integer("cluster").notNull(),
   cluster_label: text("cluster_label").notNull(),
   created_at: integer("created_at").notNull().$defaultFn(getCurrentTimeMs),
