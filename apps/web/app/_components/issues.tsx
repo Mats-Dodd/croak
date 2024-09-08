@@ -3,7 +3,7 @@ import {
   CollapsibleTrigger,
   CollapsibleContent,
 } from "@radix-ui/react-collapsible";
-import { ChevronDownIcon, ChevronRightIcon } from "lucide-react";
+import { ChevronDownIcon, Bug } from "lucide-react";
 
 // Recursive component to render sub-issues and set the selected issue
 const SubIssueComponent = ({
@@ -20,11 +20,11 @@ const SubIssueComponent = ({
   return (
     <Collapsible>
       <CollapsibleTrigger
-        className="flex items-center justify-between w-full"
+        className="flex items-center justify-between w-full text-custom-light-green"
         onClick={() => setSelectedIssue(title)} // Set the issue title on click
       >
-        <span>{title}</span>
-        {hasSubIssues ? <ChevronDownIcon className="h-4 w-4" /> : null}
+        <span>🪣 {title}</span>
+        {hasSubIssues ? <ChevronDownIcon className="h-4 w-4 text-custom-light-green" /> : null}
       </CollapsibleTrigger>
       {hasSubIssues && (
         <CollapsibleContent className="ml-4">
@@ -56,11 +56,11 @@ export default function IssuesComponent({
     <div>
       <Collapsible className="w-full">
         <CollapsibleTrigger
-          className="flex items-center justify-between w-full"
+          className="flex items-center justify-between font-semibold w-full text-custom-light-green"
           onClick={() => setSelectedIssue(issueTitle)} // Set the main issue title
         >
-          <span>{issueTitle}</span>
-          <ChevronDownIcon className="h-4 w-4" />
+          <span><Bug size={15} className="text-custom-green" /> {issueTitle}</span>
+          <ChevronDownIcon className="h-4 w-4 text-custom-light-green" />
         </CollapsibleTrigger>
         <CollapsibleContent className="ml-4 space-y-2">
           {Object.entries(subIssues).map(([subIssueTitle, subIssueContent]) => (

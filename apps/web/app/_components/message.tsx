@@ -12,7 +12,7 @@ export default function MessageComponent({
   message: string;
 }) {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 text-custom-light-green">
       <Avatar>
         <AvatarImage src={avatarSrc} />
         <AvatarFallback>{avatarFallback}</AvatarFallback>
