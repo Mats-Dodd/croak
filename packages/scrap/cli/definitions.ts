@@ -2,6 +2,7 @@ import { downloadCsv } from "./scripts/scraper/download-csv";
 import { generateFakeData } from "./scripts/scraper/generate-fake-folders";
 import { threadIdScraper } from "./scripts/scraper/thread-id-scraper";
 import { threadMessageScraper } from "./scripts/scraper/thread-message-scraper";
+import { uploadClusters } from "./scripts/scraper/upload-clusters";
 
 export type Selection = {
   name: string;
@@ -32,6 +33,11 @@ export const scripts: Selection[] = [
     name: "Generate Fake Data",
     description: "Generate Fake Data",
     onSelect: generateFakeData,
+  },
+  {
+    name: "Upload Clusters",
+    description: "Upload Clusters",
+    onSelect: uploadClusters,
   },
 ] as const;
 

@@ -43,9 +43,8 @@ export const discordMessage = sqliteTable(
   })
 );
 
-export const github_issue = sqliteTable("github_issue", {
-  id: integer("id").primaryKey(),
-  issue_id: integer("issue_id").notNull(),
+export const github_issue_source = sqliteTable("github_issue_source", {
+  issue_id: integer("issue_id").primaryKey({ autoIncrement: false }),
   title: text("title").notNull(),
   body: text("body").notNull(),
   created_at: integer("created_at").notNull().$defaultFn(getCurrentTimeMs),
