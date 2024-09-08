@@ -66,6 +66,9 @@ importers:
       '@headlessui/react':
         specifier: ^2.1.5
         version: 2.1.5(react-dom@18.3.1)(react@18.3.1)
+      '@libsql/client':
+        specifier: 0.6.0
+        version: 0.6.0
       '@radix-ui/react-avatar':
         specifier: ^1.1.0
         version: 1.1.0(@types/react-dom@18.3.0)(@types/react@18.3.5)(react-dom@18.3.1)(react@18.3.1)
@@ -90,6 +93,9 @@ importers:
       '@radix-ui/react-tooltip':
         specifier: ^1.1.2
         version: 1.1.2(@types/react-dom@18.3.0)(@types/react@18.3.5)(react-dom@18.3.1)(react@18.3.1)
+      '@repo/db':
+        specifier: workspace:*
+        version: link:../../packages/db
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -102,6 +108,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      drizzle-orm:
+        specifier: ^0.30.10
+        version: 0.30.10(@libsql/client@0.6.0)(@types/react@18.3.5)(react@18.3.1)
       lucide-react:
         specifier: ^0.439.0
         version: 0.439.0(react@18.3.1)
@@ -148,6 +157,9 @@ importers:
       autoprefixer:
         specifier: ^10.4.20
         version: 10.4.20(postcss@8.4.45)
+      drizzle-kit:
+        specifier: ^0.20.14
+        version: 0.20.18
       eslint:
         specifier: ^8
         version: 8.57.0
@@ -177,7 +189,7 @@ importers:
         version: 1.1.27
       drizzle-orm:
         specifier: ^0.30.10
-        version: 0.30.10(@libsql/client@0.6.0)
+        version: 0.30.10(@libsql/client@0.6.0)(@types/react@18.3.5)(react@18.3.1)
       drizzle-zod:
         specifier: ^0.5.1
         version: 0.5.1(drizzle-orm@0.30.10)(zod@3.23.8)
@@ -259,7 +271,7 @@ importers:
         version: 3.0.0
       drizzle-orm:
         specifier: ^0.30.10
-        version: 0.30.10(@libsql/client@0.6.0)
+        version: 0.30.10(@libsql/client@0.6.0)(@types/react@18.3.5)(react@18.3.1)
       ora:
         specifier: ^8.0.1
         version: 8.1.0
@@ -4093,7 +4105,7 @@ packages:
       - supports-color
     dev: true
 
-  /drizzle-orm@0.30.10(@libsql/client@0.6.0):
+  /drizzle-orm@0.30.10(@libsql/client@0.6.0)(@types/react@18.3.5)(react@18.3.1):
     resolution: {integrity: sha512-IRy/QmMWw9lAQHpwbUh1b8fcn27S/a9zMIzqea1WNOxK9/4EB8gIo+FZWLiPXzl2n9ixGSv8BhsLZiOppWEwBw==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
@@ -4174,6 +4186,8 @@ packages:
         optional: true
     dependencies:
       '@libsql/client': 0.6.0
+      '@types/react': 18.3.5
+      react: 18.3.1
     dev: false
 
   /drizzle-zod@0.5.1(drizzle-orm@0.30.10)(zod@3.23.8):
@@ -4182,7 +4196,7 @@ packages:
       drizzle-orm: '>=0.23.13'
       zod: '*'
     dependencies:
-      drizzle-orm: 0.30.10(@libsql/client@0.6.0)
+      drizzle-orm: 0.30.10(@libsql/client@0.6.0)(@types/react@18.3.5)(react@18.3.1)
       zod: 3.23.8
     dev: false
 
@@ -4576,7 +4590,7 @@ packages:
       debug: 4.3.7
       enhanced-resolve: 5.17.1
       eslint: 8.57.0
-      eslint-module-utils: 2.11.0(@typescript-eslint/parser@6.21.0)(eslint-import-resolver-typescript@3.6.3)(eslint@8.57.0)
+      eslint-module-utils: 2.11.0(@typescript-eslint/parser@6.21.0)(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3)(eslint@8.57.0)
       eslint-plugin-import: 2.30.0(@typescript-eslint/parser@7.18.0)(eslint@8.57.0)
       fast-glob: 3.3.2
       get-tsconfig: 4.8.0
@@ -4619,7 +4633,7 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-module-utils@2.11.0(@typescript-eslint/parser@6.21.0)(eslint-import-resolver-typescript@3.6.3)(eslint@8.57.0):
+  /eslint-module-utils@2.11.0(@typescript-eslint/parser@6.21.0)(eslint-import-resolver-node@0.3.9)(eslint-import-resolver-typescript@3.6.3)(eslint@8.57.0):
     resolution: {integrity: sha512-gbBE5Hitek/oG6MUVj6sFuzEjA/ClzNflVrLovHi/JgLdC7fiN5gLAY1WIPW1a0V5I999MnsrvVrCOGmmVqDBQ==}
     engines: {node: '>=4'}
     peerDependencies:
@@ -4643,6 +4657,7 @@ packages:
       '@typescript-eslint/parser': 6.21.0(eslint@8.57.0)(typescript@5.5.4)
       debug: 3.2.7
       eslint: 8.57.0
+      eslint-import-resolver-node: 0.3.9
       eslint-import-resolver-typescript: 3.6.3(@typescript-eslint/parser@6.21.0)(eslint-plugin-import@2.30.0)(eslint@8.57.0)
     transitivePeerDependencies:
       - supports-color
