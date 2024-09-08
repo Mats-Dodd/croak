@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { useChat } from "ai/react";
-import { Bot, CornerDownLeft, User } from "lucide-react";
+import { CornerDownLeft, LeafIcon, User } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useRef } from "react";
 import Textarea from "react-textarea-autosize";
@@ -63,12 +63,10 @@ export default function FancyTextArea() {
               <div
                 className={cn(
                   "flex size-8 shrink-0 select-none items-center justify-center rounded-md border shadow",
-                  m.role === "user"
-                    ? "bg-background"
-                    : "bg-primary text-primary-foreground"
+                  "bg-custom-light-green"
                 )}
               >
-                {m.role === "user" ? <User /> : <Bot />}
+                {m.role === "user" ? <User className="text-black" /> : <LeafIcon className="text-black" />}
               </div>
               <div className="ml-4">{m.content}</div>
             </div>
