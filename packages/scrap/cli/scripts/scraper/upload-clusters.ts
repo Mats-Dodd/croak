@@ -16,6 +16,8 @@ const CsvRowSchema = z
     cluster_label: z.string(),
     subcluster: z.string(),
     subcluster_label: z.string(),
+    subsubcluster: z.string(),
+    subsubcluster_label: z.string(),
     number: z.string(),
     title: z.string(),
     body: z.string(),
@@ -39,6 +41,7 @@ export async function uploadClusters() {
 
     const clusters = new Map();
     const subclusters = new Map();
+    const subsubclusters = new Map();
 
     spinner.text = "Processing problem space clusters";
     // First Papa.parse: Get unique problem space clusters
@@ -78,6 +81,20 @@ export async function uploadClusters() {
                   .returning();
                 subclusters.set(subclusterKey, subCluster.id);
               }
+
+              const subsubclusterKey = `${row.cluster}-${row.subcluster}-${row.subsubcluster}`;
+              if (!subsubclusters.has(subsubclusterKey)) {
+                const [subsubCluster] = await db
+                  .insert(problem_space_cluster)
+                  .values({
+                    parent_problem_space_cluster_id:
+                      subclusters.get(subclusterKey),
+                    cluster: parseInt(row.subsubcluster),
+                    cluster_label: row.subsubcluster_label,
+                  })
+                  .returning();
+                subsubclusters.set(subsubclusterKey, subsubCluster.id);
+              }
             }
             resolve();
           } catch (error) {
@@ -97,8 +114,8 @@ export async function uploadClusters() {
       })
       .from(problem_space_cluster);
 
-    spinner.text = "Processing subclusters and adding problems";
-    // Process subclusters and add problems to the database
+    spinner.text = "Processing subsubclusters and adding problems";
+    // Process subsubclusters and add problems to the database
     for (const {
       problem_space_cluster_id,
       cluster,
@@ -119,8 +136,8 @@ export async function uploadClusters() {
                   }
                   return (
                     parsedRow.success &&
-                    parsedRow.data.subcluster === cluster.toString() &&
-                    parsedRow.data.subcluster_label === cluster_label
+                    parsedRow.data.subsubcluster === cluster.toString() &&
+                    parsedRow.data.subsubcluster_label === cluster_label
                   );
                 })
                 .map((row) => CsvRowSchema.parse(row));
@@ -160,9 +177,9 @@ export async function uploadClusters() {
       });
     }
 
-    spinner.succeed("Subclusters uploaded successfully");
+    spinner.succeed("Subsubclusters uploaded successfully");
   } catch (error) {
-    spinner.fail(`Error uploading subclusters: ${error}`);
+    spinner.fail(`Error uploading subsubclusters: ${error}`);
     throw error;
   }
 }
